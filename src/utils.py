@@ -1,4 +1,5 @@
 from flask import jsonify, url_for
+from models import db, User, Characters, Planets, Favorites
 
 class APIException(Exception):
     status_code = 400
@@ -29,6 +30,7 @@ def generate_sitemap(app):
             url = url_for(rule.endpoint, **(rule.defaults or {}))
             if "/admin/" not in url:
                 links.append(url)
+      
 
     links_html = "".join(["<li><a href='" + y + "'>" + y + "</a></li>" for y in links])
     return """
@@ -39,3 +41,7 @@ def generate_sitemap(app):
         <p>Start working on your proyect by following the <a href="https://start.4geeksacademy.com/starters/flask" target="_blank">Quick Start</a></p>
         <p>Remember to specify a real endpoint path like: </p>
         <ul style="text-align: left;">"""+links_html+"</ul></div>"
+
+def get_all_user():
+    user = User.query.all()
+    return user
